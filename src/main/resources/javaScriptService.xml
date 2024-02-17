@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/integration
+           http://www.springframework.org/schema/integration/spring-integration.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd"
+>
+
+    <int:gateway id="javaScriptServiceGateway" service-interface="test.JavaScriptServiceGateway">
+        <int:method name="executeScript" request-channel="scriptInputChannel" reply-channel="loggerChannel"/>
+    </int:gateway>
+
+    <int:channel id="scriptInputChannel"/>
+
+    <int:channel id="loggerChannel"/>
+
+    <bean id="scriptExecutor" class="test.ScriptExecutor">
+        <property name="scriptLocation" value="classpath:scripts/myScript.js"/>
+    </bean>
+
+    <int:service-activator input-channel="scriptInputChannel" output-channel="loggerChannel" ref="scriptExecutor" method="executeScript"/>
+
+    <int:logging-channel-adapter id="logger" channel="loggerChannel" log-full-message="true" level="INFO"/>
+
+</beans>
