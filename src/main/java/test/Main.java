@@ -10,13 +10,14 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		//ApplicationContext ctx = new ClassPathXmlApplicationContext("serviceActivator.xml");
-		//ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-		//ApplicationContext ctx = new ClassPathXmlApplicationContext("filtering.xml");
-		//ApplicationContext ctx = new ClassPathXmlApplicationContext("routing.xml");
-		 ApplicationContext ctx = new ClassPathXmlApplicationContext("routingAdvanced.xml");
-		//ApplicationContext ctx = new ClassPathXmlApplicationContext("javaScriptService.xml");
-
+		//ApplicationContext ctx = new ClassPathXmlApplicationContext("./TP/serviceActivator.xml");
+		//ApplicationContext ctx = new ClassPathXmlApplicationContext("./TP/applicationContext.xml");
+		//ApplicationContext ctx = new ClassPathXmlApplicationContext("./TP/filtering.xml");
+		//ApplicationContext ctx = new ClassPathXmlApplicationContext("./TP/routing.xml");
+		// ApplicationContext ctx = new ClassPathXmlApplicationContext("./TP/routingAdvanced.xml");
+		//ApplicationContext ctx = new ClassPathXmlApplicationContext("./testJS/javaScriptService.xml");
+		//ApplicationContext ctx = new ClassPathXmlApplicationContext("./testWS/webServiceCalling.xml");
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("sqlDatabase.xml");
 
 	}
 

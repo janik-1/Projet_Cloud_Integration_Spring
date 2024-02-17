@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS ACCOUNT (
+    id_number INT PRIMARY KEY,
+    name VARCHAR(56),
+    amount INT
+);

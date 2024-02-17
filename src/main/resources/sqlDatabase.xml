@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/integration
+           http://www.springframework.org/schema/integration/spring-integration-5.1.xsd
+           http://www.springframework.org/schema/integration/file
+           http://www.springframework.org/schema/integration/file/spring-integration-file-5.1.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/jdbc
+           http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+           http://www.springframework.org/schema/task
+           http://www.springframework.org/schema/task/spring-task.xsd
+           http://www.springframework.org/schema/integration/jdbc
+           https://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd">
+
+    <context:component-scan base-package="test"/>
+    <int:poller id="globalPoller" default="true" fixed-delay="2000"/>
+    <int:poller id="poller" fixed-delay="2000"/>
+
+    <jdbc:embedded-database id="accounts" type="H2">
+        <jdbc:script location="classpath:scriptBD.sql"/>
+    </jdbc:embedded-database>
+
+    <int-file:inbound-channel-adapter directory="dataIn" id="jsonChannel"/>
+    <int-file:inbound-channel-adapter directory="dataIn" id="accountChannel"/>
+
+    <!-- Account -->
+    <int-file:inbound-channel-adapter
+            channel="jsonChannel"
+            directory="dataIn"
+            filename-pattern="*.json">
+        <int:poller fixed-delay="1000"/>
+    </int-file:inbound-channel-adapter>
+
+    <int:json-to-object-transformer input-channel="jsonChannel" output-channel="accountChannel" type="test.Account"/>
+
+    <!--Data to account in Database -->
+    <int-jdbc:outbound-channel-adapter
+            query="INSERT INTO ACCOUNT (id_number, name, amount)
+            values (:payload.number, :payload.name, :payload.amount)"
+            data-source="accounts"
+            channel="accountChannel"/>
+
+    <task:executor id="pollerExecutorDB"/>
+
+</beans>
