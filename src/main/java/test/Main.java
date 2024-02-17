@@ -1,6 +1,5 @@
 package test;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -16,8 +15,8 @@ public class Main {
 		//ApplicationContext ctx = new ClassPathXmlApplicationContext("./TP/routing.xml");
 		// ApplicationContext ctx = new ClassPathXmlApplicationContext("./TP/routingAdvanced.xml");
 		//ApplicationContext ctx = new ClassPathXmlApplicationContext("./testJS/javaScriptService.xml");
-		//ApplicationContext ctx = new ClassPathXmlApplicationContext("./testWS/webServiceCalling.xml");
-		ApplicationContext ctx = new ClassPathXmlApplicationContext("sqlDatabase.xml");
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("webServiceCalling.xml");
+		//ApplicationContext ctx = new ClassPathXmlApplicationContext("sqlDatabase.xml");
 
 	}
 
