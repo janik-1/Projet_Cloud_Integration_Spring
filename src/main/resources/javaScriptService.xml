@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-js="http://www.springframework.org/schema/integration/js"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/integration
+           http://www.springframework.org/schema/integration/spring-integration-5.1.xsd
+           http://www.springframework.org/schema/integration/js
+           http://www.springframework.org/schema/integration/js/spring-integration-js.xsd">
+
+    <!-- Gateway -->
+    <int:gateway id="javaScriptServiceGateway" service-interface="test.JavaScriptServiceGateway">
+        <int:method name="executeScript" request-channel="scriptInputChannel" reply-channel="loggerChannel"/>
+    </int:gateway>
+
+    <!-- Input Channel -->
+    <int:channel id="scriptInputChannel"/>
+
+    <!-- JavaScript Execution -->
+    <int-js:script-executor id="javaScriptExecutor" language="JavaScript">
+        <int-js:script location="classpath:scripts/myScript.js"/>
+    </int-js:script-executor>
+
+    <!-- Logger Channel -->
+    <int:channel id="loggerChannel"/>
+
+    <!-- Logger -->
+    <int:service-activator input-channel="loggerChannel" expression="@org.apache.commons.logging.LogFactory@getLog('JavaScriptService').info(payload)"/>
+
+</beans>
